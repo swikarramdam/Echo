@@ -24,9 +24,12 @@ const HomePage = ({ setIsLoggedIn }) => {
       try {
         const tokenLocal = localStorage.getItem("token");
         if (!tokenLocal) return;
-        const res = await axios.get("http://localhost:3001/api/clips", {
-          headers: { Authorization: `Bearer ${tokenLocal}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.BACKEND_URL}/api/clips`,
+          {
+            headers: { Authorization: `Bearer ${tokenLocal}` },
+          }
+        );
 
         const normalized = res.data.map((c) => {
           const ownerId = c.userId ? String(c.userId) : null;

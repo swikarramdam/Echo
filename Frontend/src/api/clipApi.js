@@ -1,7 +1,7 @@
 // src/api/clipApi.js
 import axios from "axios";
 
-const API_URL = "http://localhost:3001/api/clips";
+const API_URL = `${import.meta.env.BACKEND_URL}/api/clips`;
 const uploadClip = async (audioBlob, token, roomId = null) => {
   // const token = localStorage.getItem("token");
   const formData = new FormData(); // a virtual form

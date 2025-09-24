@@ -290,7 +290,7 @@ const Feed = ({ clips, setClips }) => {
     try {
       const tokenLocal = localStorage.getItem("token");
       const res = await axios.patch(
-        `http://localhost:3001/api/clips/${clipId}/reactions`,
+        `${import.meta.env.BACKEND_URL}/${clipId}/reactions`,
         { type },
         { headers: { Authorization: `Bearer ${tokenLocal}` } }
       );
@@ -317,7 +317,7 @@ const Feed = ({ clips, setClips }) => {
 
     try {
       const tokenLocal = localStorage.getItem("token");
-      await axios.delete(`http://localhost:3001/api/clips/${clipId}`, {
+      await axios.delete(`${import.meta.env.BACKEND_URL}/api/clips/${clipId}`, {
         headers: { Authorization: `Bearer ${tokenLocal}` },
       });
       setClips((prev) => prev.filter((clip) => clip._id !== clipId));

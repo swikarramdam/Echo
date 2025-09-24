@@ -5,7 +5,7 @@ let socket;
 
 export const initSocket = () => {
   if (!socket) {
-    socket = io("http://localhost:3001");
+    socket = io(`${import.meta.env.BACKEND_URL}`);
   }
   return socket;
 };

@@ -23,7 +23,7 @@ function SignIn({
     const userObj = { username, password };
 
     axios
-      .post("http://localhost:3001/signin", userObj)
+      .post(`${import.meta.env.BACKEND_URL}/signin`, userObj)
       .then((response) => {
         const token = response.data.token;
         if (token) {
@@ -33,7 +33,7 @@ function SignIn({
         }
         setUsername("");
         setPassword("");
-        showAlert('Login Failed! Incorrect username or password', 'error');
+        showAlert("Login Failed! Incorrect username or password", "error");
       })
       .catch((err) => {
         if (err.response && err.response.data) {
@@ -51,12 +51,18 @@ function SignIn({
       return showAlert("Please enter username and new password", "error");
 
     try {
-      const res = await axios.post("http://localhost:3001/forgot-password", {
-        username: resetEmail,
-        newPassword,
-      });
+      const res = await axios.post(
+        `${import.meta.env.BACKEND_URL}/forgot-password`,
+        {
+          username: resetEmail,
+          newPassword,
+        }
+      );
 
-      showAlert(res.data?.message || "Password updated successfully!", "success");
+      showAlert(
+        res.data?.message || "Password updated successfully!",
+        "success"
+      );
       setShowForgotModal(false);
       setResetEmail("");
       setNewPassword("");
@@ -89,7 +95,9 @@ function SignIn({
         <h1 className="text-2xl font-extrabold text-white">Welcome Back</h1>
         <p className="text-gray-400">Enter your account details</p>
 
-        <label className="mt-2 mb-1 text-sm font-semibold text-gray-300">Email</label>
+        <label className="mt-2 mb-1 text-sm font-semibold text-gray-300">
+          Email
+        </label>
         <input
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -99,7 +107,9 @@ function SignIn({
                      focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition"
         />
 
-        <label className="mt-2 mb-1 text-sm font-semibold text-gray-300">Password</label>
+        <label className="mt-2 mb-1 text-sm font-semibold text-gray-300">
+          Password
+        </label>
         <input
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -145,52 +155,53 @@ function SignIn({
 
       {/* Forgot Password Modal */}
       {showForgotModal && (
-  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-    <div className="bg-slate-900/95 backdrop-blur-sm rounded-3xl border border-white/10 shadow-2xl p-8 w-80 sm:w-96 flex flex-col gap-4 text-white relative">
-      <h2 className="text-xl font-bold text-white">Reset Password</h2>
-      <p className="text-gray-400 text-sm">Enter your username and new password</p>
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-slate-900/95 backdrop-blur-sm rounded-3xl border border-white/10 shadow-2xl p-8 w-80 sm:w-96 flex flex-col gap-4 text-white relative">
+            <h2 className="text-xl font-bold text-white">Reset Password</h2>
+            <p className="text-gray-400 text-sm">
+              Enter your username and new password
+            </p>
 
-      <input
-        type="text"
-        value={resetEmail}
-        onChange={(e) => setResetEmail(e.target.value)}
-        placeholder="Username"
-        className="px-3 py-2 w-full bg-slate-800/50 border border-white/10 rounded-lg text-white placeholder-gray-400
+            <input
+              type="text"
+              value={resetEmail}
+              onChange={(e) => setResetEmail(e.target.value)}
+              placeholder="Username"
+              className="px-3 py-2 w-full bg-slate-800/50 border border-white/10 rounded-lg text-white placeholder-gray-400
                    focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition"
-      />
+            />
 
-      <input
-        type="password"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-        placeholder="New Password"
-        className="px-3 py-2 w-full bg-slate-800/50 border border-white/10 rounded-lg text-white placeholder-gray-400
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="New Password"
+              className="px-3 py-2 w-full bg-slate-800/50 border border-white/10 rounded-lg text-white placeholder-gray-400
                    focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition"
-      />
+            />
 
-      <div className="flex justify-end gap-2 mt-2">
-        <button
-          className="px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg transition"
-          onClick={() => {
-            setShowForgotModal(false);
-            setResetEmail("");
-            setNewPassword("");
-          }}
-        >
-          Cancel
-        </button>
-        <button
-          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg transition"
-          onClick={handleForgotPassword}
-        >
-          Update
-        </button>
-      </div>
-    </div>
-    {AlertComponent}
-  </div>
-)}
-
+            <div className="flex justify-end gap-2 mt-2">
+              <button
+                className="px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg transition"
+                onClick={() => {
+                  setShowForgotModal(false);
+                  setResetEmail("");
+                  setNewPassword("");
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg transition"
+                onClick={handleForgotPassword}
+              >
+                Update
+              </button>
+            </div>
+          </div>
+          {AlertComponent}
+        </div>
+      )}
 
       {/* Render alert component so showAlert() messages are visible for SignIn flows */}
       {AlertComponent}
@@ -204,10 +215,11 @@ function SignUp({ username, setUsername, password, setPassword, setIsSignUp }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (password !== repassword) return showAlert("Passwords do not match!", "error");
+    if (password !== repassword)
+      return showAlert("Passwords do not match!", "error");
 
     axios
-      .post("http://localhost:3001/signup", { username, password })
+      .post(`${import.meta.env.BACKEND_URL}/signup`, { username, password })
       .then((response) => {
         showAlert(`Account created: ${response.data.username}`, "success");
         setIsSignUp(false);

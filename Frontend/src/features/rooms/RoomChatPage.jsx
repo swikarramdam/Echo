@@ -94,7 +94,7 @@ const RoomChatPage = () => {
     const token = localStorage.getItem("token");
     try {
       await axios.delete(
-        `http://localhost:3001/api/rooms/${id}/messages/${messageId}`,
+        `${import.meta.env.BACKEND_URL}/api/rooms/${id}/messages/${messageId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -245,7 +245,6 @@ const RoomChatPage = () => {
 
         <Recorder onSave={handleSend} roomId={id} />
       </div>
-
       <style jsx>{`
         @keyframes slideInUp {
           0% {
@@ -258,8 +257,7 @@ const RoomChatPage = () => {
           }
         }
       `}</style>
-      {AlertComponent};
-      {ConfirmComponent};
+      {AlertComponent};{ConfirmComponent};
     </div>
   );
 };
